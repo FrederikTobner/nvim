@@ -8,23 +8,36 @@ call plug#begin()
   " Fuzzy file finder
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
-  " Conquer of Completion
+  " Conquerer of Completion
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  let g:coc_global_extensions = ['coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver', 'coc-clangd', 'coc-java']
+  " Conquerer of Completion sub-plugins
+  let g:coc_global_extensions = ['coc-clangd', 'coc-cmake', 'coc-css', 'coc-git', 'coc-html', 'coc-java', 'coc-json', 'coc-omnisharp', 'coc-prettier', 'coc-sql', 'coc-vimlsp', 'coc-tsserver', 'coc-xml', 'coc-yaml']
   Plug 'nvim-lualine/lualine.nvim'
   " If you want to have icons in your statusline choose one of these
   Plug 'kyazdani42/nvim-web-devicons'
-  " Treesitter Plugin to improve the 
+  " Treesitter Plugin to improve the snytax highlighting  
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  " language Server provider
   Plug 'neovim/nvim-lspconfig'
+  " tagbar to get a overview about the contents of the file
   Plug 'preservim/tagbar'
+  " Cellox plugin for vim / neovim
+  Plug '~/Projects/VimPlugins/cellox.vim'
+  " Vim one (Atom one clone) color schheme
+  Plug 'rakr/vim-one'
+  " Solarized color theme
+  Plug 'lifepillar/vim-solarized8'
+  " Dracula colorscheme
+  Plug 'folke/tokyonight.nvim'
+  " Adds the diffview plugin and it's dependency the planery plugin
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'sindrets/diffview.nvim'
 call plug#end()
 
 " Treesitter configuration
 lua << EOF
 require('treesitterconfig')
 EOF
-
 
 " Lualine config
 lua << EOF
@@ -35,17 +48,6 @@ EOF
 lua << EOF
 require'lspconfig'.clangd.setup{}
 EOF
-
-"--------------------------------------------------------
-" SETTINGS START
-
-set completeopt=longest,menuone
-
-" SETTINGS END
-" --------------------------------------------------------
-
-" --------------------------------------------------------
-" COC-VIM TAB SETTINGS START
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -77,8 +79,6 @@ else
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
-" COC-VIM TAB SETTINGS END
-" --------------------------------------------------------
 
 " options
 set clipboard=unnamedplus
@@ -101,7 +101,7 @@ set expandtab
 set shiftwidth=2
 set tabstop=2
 
-" Makes sonokai backgroudn transparent
+" Makes sonokai background transparent
 let g:sonokai_transparent_background = 1
    
 " Set colorscheme to Sonokai
