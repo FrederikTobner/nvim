@@ -11,7 +11,7 @@ call plug#begin()
   " Conquerer of Completion
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   " Conquerer of Completion sub-plugins
-  let g:coc_global_extensions = ['coc-clangd', 'coc-cmake', 'coc-css', 'coc-git', 'coc-html', 'coc-java', 'coc-json', 'coc-omnisharp', 'coc-prettier', 'coc-sql', 'coc-vimlsp', 'coc-tsserver', 'coc-xml', 'coc-yaml']
+  let g:coc_global_extensions = ['coc-clangd', 'coc-cmake', 'coc-css', 'coc-git','coc-go', 'coc-html', 'coc-json', 'coc-omnisharp', 'coc-prettier', 'coc-sql', 'coc-vimlsp', 'coc-tsserver', 'coc-xml', 'coc-yaml']
   Plug 'nvim-lualine/lualine.nvim'
   " If you want to have icons in your statusline choose one of these
   Plug 'kyazdani42/nvim-web-devicons'
@@ -32,21 +32,26 @@ call plug#begin()
   " Adds the diffview plugin and it's dependency the planery plugin
   Plug 'nvim-lua/plenary.nvim'
   Plug 'sindrets/diffview.nvim'
+  " To quickly comment out code wiith gcc for a line and gc for a selected
+  " block
+  Plug 'tpope/vim-commentary'
+  " To run tests in vim
+  Plug 'vim-test/vim-test'
 call plug#end()
 
 " Treesitter configuration
 lua << EOF
-require('treesitterconfig')
+require('treesitter_config')
 EOF
 
 " Lualine config
 lua << EOF
-require('lualineconfig')
+require('lualine_config')
 EOF
 
 " LSP Config
 lua << EOF
-require'lspconfig'.clangd.setup{}
+require('lsp_config')
 EOF
 
 " Use tab for trigger completion with characters ahead and navigate.
