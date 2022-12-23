@@ -13,12 +13,16 @@ call plug#begin()
   " Conquerer of Completion sub-plugins
   let g:coc_global_extensions = ['coc-clangd', 'coc-cmake', 'coc-css', 'coc-git','coc-go', 'coc-html', 'coc-json', 'coc-omnisharp', 'coc-prettier', 'coc-sql', 'coc-vimlsp', 'coc-tsserver', 'coc-xml', 'coc-yaml']
   Plug 'nvim-lualine/lualine.nvim'
-  " If you want to have icons in your statusline choose one of these
+  " Used by the lua line and lsp-trouble
   Plug 'kyazdani42/nvim-web-devicons'
   " Treesitter Plugin to improve the snytax highlighting  
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   " language Server provider
   Plug 'neovim/nvim-lspconfig'
+  " Allows to configure the lsp highlighting
+  Plug 'folke/lsp-colors.nvim'
+  " Addding custom symbols for lsp messages
+  Plug 'folke/lsp-trouble.nvim'
   " tagbar to get a overview about the contents of the file
   Plug 'preservim/tagbar'
   " Cellox plugin for vim / neovim
@@ -35,24 +39,9 @@ call plug#begin()
   " To quickly comment out code wiith gcc for a line and gc for a selected
   " block
   Plug 'tpope/vim-commentary'
-  " To run tests in vim
+  " To run tests directly in neovim
   Plug 'vim-test/vim-test'
 call plug#end()
-
-" Treesitter configuration
-lua << EOF
-require('treesitter_config')
-EOF
-
-" Lualine config
-lua << EOF
-require('lualine_config')
-EOF
-
-" LSP Config
-lua << EOF
-require('lsp_config')
-EOF
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -75,15 +64,14 @@ else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" Use Carriage return to confirm completion,  means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
-" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+" could be remapped by other vim plugin, try `:verbose imap.
 if exists('*complete_info')
   inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 else
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
-
 
 " options
 set clipboard=unnamedplus
@@ -101,10 +89,11 @@ set title
 set ttimeoutlen=0
 set wildmenu
 
-" Tabs size
+" Expand tab stops to whitespace sequences
 set expandtab
-set shiftwidth=2
+" Size of a tabstop
 set tabstop=2
+set shiftwidth=2
 
 " Makes sonokai background transparent
 let g:sonokai_transparent_background = 1
@@ -136,7 +125,7 @@ function! OpenTerminal()
 endfunction
 nnoremap <c-n> :call OpenTerminal()<CR>
 
-" use alt+hjkl to move between split/vsplit panels
+" use alt+hjkl to move between split panels
 tnoremap <A-h> <C-\><C-n><C-w>h
 tnoremap <A-j> <C-\><C-n><C-w>j
 tnoremap <A-k> <C-\><C-n><C-w>k
@@ -147,16 +136,25 @@ nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
 
 " Fuzzy file finder config
+" Use Ctrl-P to open the file finder
 nnoremap <C-p> :FZF<CR>
+" Search apps folder (for angular development)
+command! -bang AppFiles call fzf#vim#files('./src/app', fzf#vim#with_preview(), <bang>0)
+" Search source folder
+command! -bang SourceFiles call fzf#vim#files('./src', fzf#vim#with_preview(), <bang>0)
+" Search test folder
+command! -bang TestFiles call fzf#vim#files('./test', fzf#vim#with_preview(), <bang>0)
+" Toggle preview window with Ctrl-S
+let g:fzf_preview_window = ['right,50%', 'ctrl-s']
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
-  \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit'
   \}
 
 filetype plugin indent on
 " Enable syntax highlighting
 syntax on
+" Use 256-bit terminal colors
 set t_Co=256
 
 " True color if available
@@ -170,3 +168,26 @@ else
         set termguicolors
     endif
 endif
+
+
+" Scripts in lua folder
+
+lua << EOF
+require('treesitter_config')
+EOF
+
+lua << EOF
+require('lualine_config')
+EOF
+
+lua << EOF
+require('lsp_config')
+EOF
+
+lua << EOF
+require('lspcolors_config')
+EOF
+
+lua << EOF
+require('lsptrouble_config')
+EOF
