@@ -111,6 +111,9 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Toggle
 nnoremap <silent> <C-b> :NERDTreeToggle<CR>
 
+" Toggle Tagbar
+nnoremap <silent> <C-l> :TagbarToggle<CR>
+
 " open new split panes to right and below
 set splitright
 set splitbelow
@@ -136,8 +139,8 @@ nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
 
 " Fuzzy file finder config
-" Use Ctrl-P to open the file finder
-nnoremap <C-p> :FZF<CR>
+" Use Ctrl-F to open the file finder
+nnoremap <C-f> :FZF<CR>
 " Search apps folder (for angular development)
 command! -bang AppFiles call fzf#vim#files('./src/app', fzf#vim#with_preview(), <bang>0)
 " Search source folder
