@@ -27,6 +27,8 @@ call plug#begin()
   Plug 'preservim/tagbar'
   " Cellox plugin for vim / neovim
   Plug '~/Projects/VimPlugins/cellox.vim'
+  " CHIP-8 plugin for vim / neovim
+  Plug '~/Projects/VimPlugins/chip8.vim'
   " Vim one (Atom one clone) color schheme
   Plug 'rakr/vim-one'
   " Solarized color theme
@@ -41,11 +43,9 @@ call plug#begin()
   Plug 'tpope/vim-commentary'
   " To run tests directly in neovim
   Plug 'vim-test/vim-test'
+  Plug 'github/copilot.vim'
 call plug#end()
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -174,7 +174,6 @@ endif
 
 
 " Scripts in lua folder
-
 lua << EOF
 require('treesitter_config')
 EOF
